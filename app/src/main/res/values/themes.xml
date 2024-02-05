@@ -1,0 +1,34 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="Base.Theme.TonightsMovie" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:background">@color/gray900</item>
+        <item name="android:fontFamily">@font/alata</item>
+    </style>
+
+    <style name="Theme.TonightsMovie" parent="Base.Theme.TonightsMovie" >
+        <item name="android:statusBarColor">@color/gray900</item>
+        <item name="android:navigationBarColor">@color/gray900</item>
+    </style>
+
+    <style name="Text.DefaultFont.Gray300.16" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray300</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.DefaultFont.Gray300.18" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray300</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Text.DefaultFont.Gray300.20" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray300</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.DefaultFont.Gray300.22" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray300</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+</resources>

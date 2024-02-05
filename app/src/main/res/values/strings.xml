@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Common -->
+    <string name="app_name">Tonight\'s Movie</string>
+    <string name="action_retry">Retry</string>
+    <string name="msg_something_went_wrong">Something went wrong, please try again later!</string>
+
+    <!-- Transition -->
+    <string name="transition_movie_poster">transition_movie_poster</string>
+
+    <!-- Home Screen -->
+    <string name="msg_question_tonight_movie">What is tonight\'s movie?</string>
+
+    <!-- Movie Details Screen -->
+    <string name="template_runtime">Runtime %d mins</string>
+    <string name="title_revenue">Revenue</string>
+    <string name="title_budget">Budget</string>
+
+</resources>

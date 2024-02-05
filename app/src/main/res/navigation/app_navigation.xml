@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@+id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.tonightsmovie.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.example.tonightsmovie.ui.moviedetails.MovieDetailsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_movie_details">
+        <!--
+            "'movieDetails' is not a valid destination for tag 'argument' "
+            Is just an error from Android Studio, hopefully it be fixed next update.
+        -->
+        <!--suppress NavigationFile -->
+        <argument
+            android:name="movieDetails"
+            app:argType="com.example.tonightsmovie.data.MovieDetails" />
+    </fragment>
+
+</navigation>

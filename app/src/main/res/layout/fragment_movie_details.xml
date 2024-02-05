@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.tonightsmovie.ui.moviedetails.MovieDetailsUiState" />
+
+        <variable
+            name="vm"
+            type="com.example.tonightsmovie.viewmodels.MovieDetailsViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        app:statusBarBackground="@android:color/transparent"
+        tools:context=".ui.moviedetails.MovieDetailsFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:behavior_overlapTop="16dp"
+            app:statusBarForeground="@android:color/transparent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:contentScrim="@color/gray900"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                app:statusBarScrim="@android:color/transparent"
+                app:titleEnabled="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/flPosterBlur"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivPoster"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:transitionName="@string/transition_movie_poster"
+                            app:layout_collapseMode="parallax"
+                            app:loadImageWithBlur="@{vm.movieDetails.posterURL}"
+                            tools:src="@tools:sample/backgrounds/scenic" />
+
+                    </FrameLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvMovieTitle"
+                        style="@style/Text.DefaultFont.Gray300.20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingTop="16dp"
+                        android:text="@{vm.movieDetails.title}"
+                        tools:text="Movie Title" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:layout_collapseMode="pin"
+                    app:titleTextColor="@android:color/white" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_24dp"
+                android:paddingHorizontal="@dimen/padding_16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="@dimen/padding_24dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMovieOverview"
+                    style="@style/Text.DefaultFont.Gray300.16"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{vm.movieDetails.overview}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Movie Overview" />
+
+                <include
+                    android:id="@+id/viewLoadState"
+                    layout="@layout/view_load_state"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    app:errorMessage="@{vm.uiState.getErrorMessage(context)}"
+                    app:goneUnless="@{vm.uiState.hasError || vm.uiState.isLoading}"
+                    app:isLoading="@{vm.uiState.isLoading}"
+                    app:layout_constraintEnd_toEndOf="@id/tvMovieOverview"
+                    app:layout_constraintStart_toStartOf="@id/tvMovieOverview"
+                    app:layout_constraintTop_toBottomOf="@id/tvMovieOverview"
+                    app:retryAction="@{vm::fetchMovieDetails}"
+                    tools:visibility="gone" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tvRuntime,ivRevenue,ivBudget"
+                    app:goneUnless="@{vm.uiState.isLoaded}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvRuntime"
+                    style="@style/Text.DefaultFont.Gray300.16"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:drawableStart="@android:drawable/star_on"
+                    android:text="@{@string/template_runtime(vm.movieDetails.runtime)}"
+                    app:layout_constraintEnd_toEndOf="@id/tvMovieOverview"
+                    app:layout_constraintStart_toStartOf="@id/tvMovieOverview"
+                    app:layout_constraintTop_toBottomOf="@id/tvMovieOverview"
+                    tools:text="Runtime 120 mins" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ivRevenue"
+                    style="@style/Text.DefaultFont.Gray300.16"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:drawableStart="@android:drawable/star_on"
+                    app:layout_constraintEnd_toEndOf="@id/tvRuntime"
+                    app:layout_constraintStart_toStartOf="@id/tvRuntime"
+                    app:layout_constraintTop_toBottomOf="@id/tvRuntime"
+                    app:money="@{vm.movieDetails.revenue}"
+                    app:prefix="@{@string/title_revenue}"
+                    tools:text="Revenue $100,000,000" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ivBudget"
+                    style="@style/Text.DefaultFont.Gray300.16"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:drawableStart="@android:drawable/star_on"
+                    app:layout_constraintEnd_toEndOf="@id/ivRevenue"
+                    app:layout_constraintStart_toStartOf="@id/ivRevenue"
+                    app:layout_constraintTop_toBottomOf="@id/ivRevenue"
+                    app:money="@{vm.movieDetails.budget}"
+                    app:prefix="@{@string/title_budget}"
+                    tools:text="Budget $100,000,000" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

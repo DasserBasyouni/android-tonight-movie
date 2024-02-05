@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.tonightsmovie.ui.home.HomeUiState" />
+
+        <import type="kotlin.jvm.functions.Function0" />
+
+        <import type="kotlin.Unit" />
+
+        <variable
+            name="vm"
+            type="com.example.tonightsmovie.viewmodels.HomeViewModel" />
+
+        <variable
+            name="firstPageLoadUiState"
+            type="com.example.tonightsmovie.common.ui.AppPagingLoadUiState" />
+
+        <variable
+            name="retryAction"
+            type="Function0&lt;Unit>" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:visibility="gone"
+            app:titleTextColor="@android:color/white" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray900"
+            tools:context=".ui.home.HomeFragment">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvWhatToWatch"
+                style="@style/Text.DefaultFont.Gray300.22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                android:text="@string/msg_question_tonight_movie"
+                android:textAlignment="center"
+                app:fontFamily="@font/alata"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMovies"
+                android:name="com.example.tonightsmovie.ui.home.HomeFragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:padding="@dimen/padding_16dp"
+                app:goneUnless="@{firstPageLoadUiState.isLoaded}"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvWhatToWatch"
+                app:spanCount="2"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_movie" />
+
+            <include
+                android:id="@+id/viewLoadState"
+                layout="@layout/view_load_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:errorMessage="@{firstPageLoadUiState.getErrorMessage(context)}"
+                app:goneUnless="@{firstPageLoadUiState.isLoading || firstPageLoadUiState.hasError}"
+                app:isLoading="@{firstPageLoadUiState.isLoading}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvWhatToWatch"
+                app:retryAction="@{retryAction}"
+                tools:visibility="gone" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</layout>
